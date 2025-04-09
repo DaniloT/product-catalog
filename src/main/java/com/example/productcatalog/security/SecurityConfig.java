@@ -1,5 +1,6 @@
 package com.example.productcatalog.security;
 
+import com.example.productcatalog.config.CorsProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,6 +21,12 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 public class SecurityConfig {
 
+    private final CorsProperties corsProperties;
+
+    public SecurityConfig(CorsProperties corsProperties) {
+        this.corsProperties = corsProperties;
+    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -34,9 +41,7 @@ public class SecurityConfig {
                 .httpBasic(withDefaults())
 
                 // Disable CSRF
-                .csrf(csrf -> csrf
-                        .disable()
-                )
+                .csrf(csrf -> csrf.disable())
 
                 // Enable CORS handling in Spring Security
                 .cors(withDefaults())
@@ -65,11 +70,10 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    // Cors configuration bean to allow localhost:3000 to make requests
     @Bean
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+        config.setAllowedOrigins(corsProperties.getAllowedOrigins());
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH"));
         config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
         config.setAllowCredentials(true);

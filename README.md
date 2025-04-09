@@ -28,3 +28,17 @@ When that concludes, run:
 ```
 
 The server will start on port 8080 by default.
+
+If you want to run the unit tests, you can use:
+```
+./gradlew test
+```
+
+## Adjusting CORS
+
+CORS was set up to allow connections by localhost:3000, the default address that the frontend uses.
+If needed, adjust the accepted address in the application.properties file by editing the line:
+```
+cors.allowed-origins=http://localhost:3000,http://example.com
+```
+It supports multiple addresses' comma separated.
