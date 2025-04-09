@@ -42,3 +42,8 @@ If needed, adjust the accepted address in the application.properties file by edi
 cors.allowed-origins=http://localhost:3000,http://example.com
 ```
 It supports multiple addresses' comma separated.
+
+
+## Data Storage
+
+This application uses H2 to store data, for simplicity, so there is no need to set up a database.
